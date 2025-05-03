@@ -226,7 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreVal = document.getElementById('scoreInput').value;
     const canvasData = document.getElementById('drawCanvas').toDataURL();
 
-  fetch('https://.../exec', {
+  fetch('https://script.google.com/macros/s/AKfycbzMa9Py81G59mX3K6Mz1xjYwn0AxnhZh7ShBwa4Fj8FJs8a6QkqiMJqiAFfqtnL-6b6tw/exec
+', {
   method: 'POST',
   body: JSON.stringify({ name, score: scoreVal, image: canvasData }),
 })
