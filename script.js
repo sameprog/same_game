@@ -136,14 +136,14 @@ window.onload = () => {
   }))).then(() => {
     console.log("All images loaded!");
     initBoard();
-    setupDrawing(); // ⭐ 絵描き機能のセットアップ
+    setupDrawing(); // ⭐ 絵描き機能のセットアップもここでやる
   });
 };
 
 // =================== 絵描き機能 ===================
 function setupDrawing() {
   const drawCanvas = document.getElementById('drawCanvas');
-  if (!drawCanvas) return;
+  if (!drawCanvas) return;  // フォームがまだ出てないときはスキップ
   const drawCtx = drawCanvas.getContext('2d');
   let drawing = false;
   let currentColor = 'black';
@@ -215,3 +215,29 @@ function setupDrawing() {
     drawCtx.stroke();
   });
 }
+
+// =================== 送信処理 ===================
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('submitForm');
+  if (!form) return;
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('nameInput').value;
+    const scoreVal = document.getElementById('scoreInput').value;
+    const canvasData = document.getElementById('drawCanvas').toDataURL();
+
+  fetch('https://script.google.com/macros/s/AKfycbzMa9Py81G59mX3K6Mz1xjYwn0AxnhZh7ShBwa4Fj8FJs8a6QkqiMJqiAFfqtnL-6b6tw/exec', {
+  method: 'POST',
+  body: JSON.stringify({ name, score: scoreVal, image: canvasData }),
+})
+    .then(response => response.text())
+    .then(data => {
+      alert('登録完了！');
+      location.reload();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('登録失敗...');
+    });
+  });
+});
